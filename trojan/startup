@@ -2,7 +2,7 @@
 
 set -e
 
-until [ `ls -A /ssl|wc -w` -eq 1 ]
+until [ `ls -A /ssl|wc -w` -gt 0 ]
 do
   >&2 echo "ssl certs is empty - checking..."
   sleep 1
