@@ -12,7 +12,7 @@ The V2Ray server is default configured as *VMess + TLS + WebSocket*, with the We
 
 - This project depends on *Docker* and *Docker Compose* for fast deployment. You'll have to install them before deployment.
 
-- The ports of `443` and `80` must **NOT** be occupied on your machine.
+- The ports of `443` and `80` must **NOT** be occupied on your server.
 
 - Install Docker:
 
