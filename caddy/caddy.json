@@ -1,0 +1,106 @@
+{
+    "apps": {
+        "http": {
+            "servers": {
+                "gateway": {
+                    "automatic_https": {
+                        "disable_redirects": true
+                    },
+                    "listen": [
+                        ":80",
+                        ":443"
+                    ],
+                    "routes": [{
+                        "match": [{
+                            "host": [
+                                "your_domain_name"
+                            ]
+                        }],
+                        "handle": [{
+                            "handler": "subroute",
+                            "routes": [{
+                                    "match": [{
+                                        "path": ["/v"]
+                                    }],
+                                    "handle": [{
+                                        "handler": "reverse_proxy",
+                                        "upstreams": [{
+                                            "dial": "v2:7654"
+                                        }],
+                                        "headers": {
+                                            "request": {
+                                                "set": {
+                                                    "Host": ["{http.request.host}"],
+                                                    "X-Real-IP": ["{http.request.remote.host}"],
+                                                    "X-Forwarded-For": ["{http.request.remote.host}"],
+                                                    "X-Forwarded-Proto": ["{http.request.scheme}"]
+                                                }
+                                            }
+                                        }
+                                    }],
+                                    "terminal": true
+                                },
+                                {
+                                    "handle": [{
+                                        "handler": "file_server",
+                                        "root": "/usr/share/caddy"
+                                    }],
+                                    "terminal": true
+                                }
+                            ]
+                        }],
+                        "terminal": true
+                    }]
+                }
+            }
+        },
+        "tls": {
+            "automation": {
+                "policies": [{
+                    "issuer": {
+                        "email": "your@email.com",
+                        "module": "acme"
+                    }
+                }]
+            }
+        }
+    },
+    "logging": {
+        "sink": {
+            "writer": {
+                "output": "file",
+                "filename": "/var/log/std.log",
+                "roll": true,
+                "roll_size_mb": 5,
+                "roll_gzip": false,
+                "roll_local_time": false,
+                "roll_keep": 10,
+                "roll_keep_days": 10
+            }
+        },
+        "logs": {
+            "stdout": {
+                "level": "INFO",
+                "writer": {
+                    "output": "stdout"
+                },
+                "encoder": {
+                    "format": "console"
+                }
+            },
+            "file": {
+                "level": "INFO",
+                "writer": {
+                    "output": "file",
+                    "filename": "/var/log/caddy.log",
+                    "roll": true,
+                    "roll_size_mb": 5,
+                    "roll_gzip": false,
+                    "roll_local_time": false,
+                    "roll_keep": 10,
+                    "roll_keep_days": 10
+                }
+            }
+        }
+    }
+}

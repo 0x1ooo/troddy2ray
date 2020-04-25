@@ -1,0 +1,22 @@
+{
+    "inbounds": [{
+        "tag": "ladder",
+        "port": 7654,
+        "protocol": "vmess",
+        "settings": {
+            "clients": [{
+                    "id": "e86a5c4e-b0e8-4087-9940-0c3b2614970f",
+                    "level": 0,
+                    "alterId": 64,
+                    "email": "your@email.com"
+                }
+            ]
+        },
+        "streamSettings": {
+            "network": "ws",
+            "wsSettings": {
+                "path": "/v"
+            }
+        }
+    }]
+}

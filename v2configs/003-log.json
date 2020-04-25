@@ -1,0 +1,7 @@
+{
+    "log": {
+        "loglevel": "warning",
+        "access": "",
+        "error": "/var/log/error.log"
+    }
+}

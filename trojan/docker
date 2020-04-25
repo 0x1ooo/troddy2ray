@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+IMAGE_NAME=trojan
+VERSION=latest
+
+#######color code########
+ERR="31m"  # Error message
+SUCC="32m" # Success message
+WARN="33m" # Warning message
+BLUE="36m" # Info message
+
+colorEcho() {
+    echo -e "\033[${1}${@:2}\033[0m" 1>&2
+}
+##########################
+
+help() {
+    echo "
+A cli for building & publishing trojan image
+
+Usage:
+    $0 COMMAND [COMMAND ARGUMENTS]
+
+Commands:
+    build   Builds the trojan image
+    pub     Pushes the trojan image to docker hub with specified version(s).
+            Takes an arry of versions as arguments. Default as 'latest'
+"
+}
+
+build() {
+    colorEcho ${BLUE} "building image ${IMAGE_NAME}..."
+    docker build -t ${IMAGE_NAME} "$(pwd)/trojan"
+    colorEcho ${SUCC} "✔️️ build completed."
+}
+
+publish() {
+    if [ $# -eq 0 ]; then
+        VERS=("latest")
+    else
+        VERS=$@
+    fi
+    for ver in ${VERS}; do
+        tagPush ${ver}
+    done
+    colorEcho ${SUCC} "✔️️ all versions are published."
+}
+
+tagPush() {
+    colorEcho ${BLUE} "tagging image ${IMAGE_NAME} (${1})..."
+    docker tag ${IMAGE_NAME} wizcas/${IMAGE_NAME}:${1}
+    colorEcho ${BLUE} "pushing images to repository..."
+    docker push wizcas/${IMAGE_NAME}:${1}
+}
+
+case $1 in
+build)
+    build
+    ;;
+pub)
+    shift
+    publish "$@"
+    ;;
+repub)
+    build
+    shift
+    publish "$@"
+    ;;
+*)
+    help
+    exit 1
+    ;;
+esac

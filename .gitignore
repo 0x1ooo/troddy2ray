@@ -1,0 +1,5 @@
+caddy/data
+caddy/config
+ssl/
+**.log
+*.bak/

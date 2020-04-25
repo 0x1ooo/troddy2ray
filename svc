@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+#######color code########
+RED="31m"      # Error message
+GREEN="32m"    # Success message
+YELLOW="33m"   # Warning message
+BLUE="36m"     # Info message
+
+colorEcho(){
+    echo -e "\033[${1}${@:2}\033[0m" 1>& 2
+}
+##########################
+
+help() {
+    echo "
+A cli for admining services.
+
+    Usage:
+        svc reload <SERVICE NAME>
+        svc <docker-compose CMDS> [OPTIONS] [ARGUMENTS]
+
+    Commands：
+        help                        显示本帮助文档
+        reload                      重新生成指定服务的容器，用于在不影响其他服务的情况下，应用新的镜像和环境变量容器设置
+        docker-compose subcommands  执行docker-compose命令
+"
+}
+
+compose() {
+    docker-compose $@
+}
+
+reload() {
+    if [ -z $1 ]; then
+        colorEcho ${RED} "
+参数错误：未指定微服务名称
+    用法: svc reload <微服务名称>
+"
+        exit 1
+    fi
+    docker-compose stop $1 && \
+    docker-compose rm -f $1 && \
+    docker-compose up -d $1
+}
+
+case $1 in
+help | -h)
+    help
+    ;;
+reload)
+    shift
+    reload $1
+    ;;
+*)
+    compose $@
+    ;;
+esac
