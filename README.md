@@ -4,7 +4,7 @@ An integrated solution for Trojan + V2Ray + Caddy2 server-side environment.
 
 ## Goal
 
-By setting up this solution, your sever turns into a proxy server providing **BOTH** V2Ray **AND** Trojan services.
+By setting up this solution, your server turns into a proxy server providing **BOTH** V2Ray **AND** Trojan services.
 
 The V2Ray server is default configured as *VMess + TLS + WebSocket*, with the WebSocket path `/v`.
 
@@ -47,7 +47,7 @@ Change directory to `/trojan` and edit the following config files:
             "your_domain"
         ]
         ```
-    - In line `61`, change `email` as your preferr for certificate application:
+    - In line `61`, change `email` to what your prefer for certificate requesting & auto renewal:
         ``` json
         "email": "your@email.com",
         ```
