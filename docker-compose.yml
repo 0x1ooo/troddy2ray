@@ -8,7 +8,6 @@ services:
     volumes:
       - ./wwwroot:/usr/share/caddy
       - ./ssl:/data/caddy/certificates/acme-v02.api.letsencrypt.org-directory
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/caddy.json:/etc/caddy/caddy.json
       - ./caddy/data:/data
       - ./caddy/config:/config
