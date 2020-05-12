@@ -44,7 +44,7 @@ Change directory to `/trojan` and edit the following config files:
     - In line `15`, change `your_domain_name` to a domain that points to your server:
         ``` json
         "host": [
-            "your_domain"
+            "your_domain_name"
         ]
         ```
     - In line `61`, change `email` to what your prefer for certificate requesting & auto renewal:
